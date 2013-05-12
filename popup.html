@@ -1,14 +1,30 @@
-<script type="text/javascript" src="jquery-2.0.0.js"></script>
-<script type="text/javascript" src="granted_background.js"></script>
-
+<div id="bodybody">
+    <script type="text/javascript" src="jquery-2.0.0.js"></script>
+    <script type="text/javascript" src="granted_background.js"></script>
+    <link rel="stylesheet" type="text/css" href="granted.css">
+    
 <h1>WELCOME TO TIMER</h1>
 
-<div>Start Time:</div>
-<div id='start-time'> </div>
-<br>
-<div>End Time:</div>
-<div id='end-time'> </div>
-<br>
-<div>Time Left:</div>
-<div id='left-time'> </div>
+    <div class='start'>
+        <div>Start Time:</div>
+        <div id='start-time'></div>
+    </div>
+    <br>
+    <div class='end'>
+        <div>End Time:</div>
+        <div id='end-time'></div>
+    </div>
+    <br>
+    <div class='left'>
+        <div>Time Left:</div>
+        <div id='left-time'></div>
+    </div>
+    <br>
+    <div>Progress</div>
+    <div id="progress-cont" style="padding:2px;background:#CCC;">
+        <div id='progress' style="width:50%;background:#F00;text-align:center;"> <span>25%</span>
 
+        </div>
+    </div>
+
+</div>

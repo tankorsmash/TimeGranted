@@ -1,26 +1,26 @@
-chrome.extension.onMessage.addListener(
-
-function (request, sender) {
-    console.log(sender.tab);
-    n_results = -1;
-
-    console.log(request.link);
-
-    chrome.history.getVisits({
-        url: request.link
-    },
-
-    function (visits) {
-        console.log(visits.length);
-        n_results = visits.length;
-        chrome.tabs.sendMessage(sender.tab.id, {
-            "result": n_results
-        });
-    });
-
-});
-
-function updateTimeLeft(ending_time){
+// chrome.extension.onMessage.addListener(
+// 
+// function (request, sender) {
+//     console.log(sender.tab);
+//     n_results = -1;
+// 
+//     console.log(request.link);
+// 
+//     chrome.history.getVisits({
+//         url: request.link
+//     },
+// 
+//     function (visits) {
+//         console.log(visits.length);
+//         n_results = visits.length;
+//         chrome.tabs.sendMessage(sender.tab.id, {
+//             "result": n_results
+//         });
+//     });
+// 
+// });
+// 
+function updateTimeLeft(ending_time) {
     var current_time = new Date();
     left_time = ending_time - current_time;
 
@@ -28,7 +28,13 @@ function updateTimeLeft(ending_time){
     msg = time_obj.h + "h" + time_obj.m + "m" + time_obj.s + 's';
     $('#left-time').text(msg);
 
-    setTimeout(function(){
+    //progress bar
+    percentage = left_time / (8 * 60 * 60 * 1000);
+    $('#progress').css('width', (percentage * 100)+'%');
+    $('#progress').text((Math.round((percentage * 100 * 100) / 100) ) + " %");
+
+
+    setTimeout(function () {
 
         updateTimeLeft(ending_time);
 
@@ -38,15 +44,20 @@ function updateTimeLeft(ending_time){
 
 
 function convertMS(ms) {
-  var d, h, m, s;
-  s = Math.floor(ms / 1000);
-  m = Math.floor(s / 60);
-  s = s % 60;
-  h = Math.floor(m / 60);
-  m = m % 60;
-  d = Math.floor(h / 24);
-  h = h % 24;
-  return { d: d, h: h, m: m, s: s };
+    var d, h, m, s;
+    s = Math.floor(ms / 1000);
+    m = Math.floor(s / 60);
+    s = s % 60;
+    h = Math.floor(m / 60);
+    m = m % 60;
+    d = Math.floor(h / 24);
+    h = h % 24;
+    return {
+        d: d,
+        h: h,
+        m: m,
+        s: s
+    };
 };
 
 function rl() {
@@ -106,7 +117,7 @@ function getEarliestHistory(start_time, end_time) {
                 ending_time.setHours(ending_time.getHours() + 8);
                 $('#end-time').text(ending_time.toLocaleTimeString());
 
-                console.log("Earliest history item found: " + lastVisitTime );
+                console.log("Earliest history item found: " + lastVisitTime);
 
                 //start the update timer, once a second
                 updateTimeLeft(ending_time);
@@ -119,7 +130,7 @@ function getEarliestHistory(start_time, end_time) {
             start_time.setHours(start_time.getHours() + 1);
             end_time.setHours(end_time.getHours() + 1);
             // console.log(start_time.getHours() + ' and ' + end_time.getHours() + '\n');
-            
+
             //recurse til you make it
             getEarliestHistory(start_time, end_time);
         }
@@ -130,10 +141,6 @@ function getEarliestHistory(start_time, end_time) {
 
 
 $(function () {
-
-
-    //find first history of the day
-
     //take a look at items between 6a and 7, if limit is hit, that means there
     //were probably some before
 
@@ -147,7 +154,4 @@ $(function () {
 
     getEarliestHistory(start_time, end_time);
 
-    //create timer
-    //
-    //show timer
 });

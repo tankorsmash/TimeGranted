@@ -1,0 +1,20 @@
+#bodybody {
+    width: 400px;
+    font-family: Helvetica;
+}
+
+#bodybody div {
+    text-align: center;
+}
+
+#progress-cont {
+    /* width:100px; */
+    margin-left:25%;
+    margin-right:25%;
+}
+
+.start{
+}
+
+.end{
+}
