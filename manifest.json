@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+
+  "name": "Time Granted",
+  "description": "A countdown from the first time you log onto your browser",
+  "version": "0.1",
+
+  // "permissions": [
+  //   "https://reddit.com/",
+  //   "http://reddit.com/"
+  // ],
+  "browser_action": {
+    // "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts" : [
+  {
+      "matches" : ["http://*/*"],
+      "css" : ["granted.css"],
+      "js" : ["jquery-2.0.0.js","granted.js"]
+  }],
+
+  "permissions": [
+     "tabs", "http://*/*", "history"
+  ],
+  "background": {"scripts": ["jquery-2.0.0.js", "granted_background.js"]}
+
+}
