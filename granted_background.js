@@ -18,9 +18,36 @@ function (request, sender) {
         });
     });
 
-
-
 });
+
+function updateTimeLeft(ending_time){
+    var current_time = new Date();
+    left_time = ending_time - current_time;
+
+    time_obj = convertMS(left_time);
+    msg = time_obj.h + "h" + time_obj.m + "m" + time_obj.s + 's';
+    $('#left-time').text(msg);
+
+    setTimeout(function(){
+
+        updateTimeLeft(ending_time);
+
+    }, 1000);
+
+}
+
+
+function convertMS(ms) {
+  var d, h, m, s;
+  s = Math.floor(ms / 1000);
+  m = Math.floor(s / 60);
+  s = s % 60;
+  h = Math.floor(m / 60);
+  m = m % 60;
+  d = Math.floor(h / 24);
+  h = h % 24;
+  return { d: d, h: h, m: m, s: s };
+};
 
 function rl() {
     location.reload();
@@ -70,17 +97,30 @@ function getEarliestHistory(start_time, end_time) {
                 index_of_earliest_hisitem = $.grep(index_times, function (item) {
                     return item.time.getTime() === mintime
                 })[0].index
-                first_histime = ALL[index_of_earliest_hisitem];
 
-                console.log("Earliest history item found: " + get_lastVisitTime(first_histime));
+                first_histime = ALL[index_of_earliest_hisitem];
+                var lastVisitTime = get_lastVisitTime(first_histime);
+                $('#start-time').text(lastVisitTime.toLocaleTimeString());
+
+                var ending_time = new Date(lastVisitTime.getTime());
+                ending_time.setHours(ending_time.getHours() + 8);
+                $('#end-time').text(ending_time.toLocaleTimeString());
+
+                console.log("Earliest history item found: " + lastVisitTime );
+
+                //start the update timer, once a second
+                updateTimeLeft(ending_time);
 
             }
         } else {
             console.log('no history found, looking an hour later');
-            console.log('was looking between ' + start_time.getHours() + ' and ' + end_time.getHours() + ' but now looking between...');
+            // console.log('was looking between ' + start_time.getHours() + ' and ' + end_time.getHours() + ' but now looking between...');
+
             start_time.setHours(start_time.getHours() + 1);
             end_time.setHours(end_time.getHours() + 1);
-            console.log(start_time.getHours() + ' and ' + end_time.getHours() + '\n');
+            // console.log(start_time.getHours() + ' and ' + end_time.getHours() + '\n');
+            
+            //recurse til you make it
             getEarliestHistory(start_time, end_time);
         }
     });
@@ -94,7 +134,7 @@ $(function () {
 
     //find first history of the day
 
-    //take a look at items between 7a and 8, if limit is hit, that means there
+    //take a look at items between 6a and 7, if limit is hit, that means there
     //were probably some before
 
     end_time = new Date();
