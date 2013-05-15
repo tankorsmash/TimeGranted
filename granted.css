@@ -14,10 +14,17 @@ h1{
     text-align: center;
 }
 
+#percent-cont {
+        position: absolute;
+        left: 12em;
+
+}
+
 #progress-cont {
     /* width:100px; */
     margin-left:25%;
     margin-right:25%;
+    overflow:hidden;
 }
 
 .start{

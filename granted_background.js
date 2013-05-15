@@ -157,7 +157,7 @@ $(function () {
 
     getEarliestHistory(start_time, end_time);
     // test_time = new Date();
-    // test_time.setHours(test_time.getHours() + 1);
+    // test_time.setHours(test_time.getHours() + 10);
     // updateTimeLeft(test_time);
 
 });
