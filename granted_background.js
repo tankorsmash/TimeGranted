@@ -31,7 +31,10 @@ function updateTimeLeft(ending_time) {
     //progress bar
     percentage = left_time / (8 * 60 * 60 * 1000);
     $('#progress').css('width', (percentage * 100)+'%');
-    $('#progress').text((Math.round((percentage * 100 * 100) / 100) ) + " %");
+    // $('#progress').text((Math.round((percentage * 100 * 100) / 100) ) + " %");
+    $('#percent').text((Math.round((percentage * 100 * 100) / 100) ) + " %");
+
+    console.log('updated');
 
 
     setTimeout(function () {
@@ -153,5 +156,8 @@ $(function () {
     maxResultsLimit = 100;
 
     getEarliestHistory(start_time, end_time);
+    // test_time = new Date();
+    // test_time.setHours(test_time.getHours() + 1);
+    // updateTimeLeft(test_time);
 
 });
