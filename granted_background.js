@@ -29,7 +29,7 @@ function updateTimeLeft(ending_time) {
     $('#left-time').text(msg);
 
     //progress bar
-    percentage = left_time / (8 * 60 * 60 * 1000);
+    percentage = 1 - ( left_time / (8 * 60 * 60 * 1000));
     $('#progress').css('width', (percentage * 100)+'%');
     // $('#progress').text((Math.round((percentage * 100 * 100) / 100) ) + " %");
     $('#percent').text((Math.round((percentage * 100 * 100) / 100) ) + " %");
