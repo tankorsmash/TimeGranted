@@ -1,33 +1,23 @@
 <div id="bodybody">
-    <script type="text/javascript" src="jquery-2.0.0.js"></script>
-    <script type="text/javascript" src="granted_background.js"></script>
-    <link rel="stylesheet" type="text/css" href="granted.css">
-    
-<h1>TimeGranted</h1>
+	<script type="text/javascript" src="jquery-2.0.0.js"></script>
+	<script type="text/javascript" src="granted_background.js"></script>
 
-    <div class='start'>
-        <div>Start Time:</div>
-        <div id='start-time'></div>
-    </div>
-    <br>
-    <div class='end'>
-        <div>End Time:</div>
-        <div id='end-time'></div>
-    </div>
-    <br>
-    <div class='left'>
-        <div>Time Left:</div>
-        <div id='left-time'></div>
-    </div>
-    <br>
-    <div>Progress</div>
-    <div id="progress-cont" style="padding:2px;background:#CCC;">
-        <div id='progress' style="width:50%;background:#F00;text-align:center;"> 
-            <span id="percent-cont">
-        <span style="" id="percent">25%</span>
-    </span>
-    &nbsp;
-        </div>
-    </div>
+	<link rel="stylesheet" type="text/css" href="granted.css">
 
+	<h1>time<span>grant</span>ed</h1>
+
+	<div>
+		<span title="Start Time" id='start-time'></span> &rarr;
+		<span title="End Time" id='end-time'></span> &rarr;
+		<span title="Time Left" id='left-time'></span>
+	</div>
+
+	<div id="progress-cont">
+		<div id="progress"> 
+			<span id="percent-cont">
+				<span id="percent">0%</span>
+			</span>
+			&nbsp;
+		</div>
+	</div>
 </div>
