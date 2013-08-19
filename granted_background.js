@@ -25,7 +25,14 @@ function updateTimeLeft(ending_time) {
     left_time = ending_time - current_time;
 
     time_obj = convertMS(left_time);
-    msg = time_obj.h + "h" + time_obj.m + "m" + time_obj.s + 's';
+
+    if (time_obj.h == 0) {
+    	msg = time_obj.m + "m " + time_obj.s + 's';
+    }
+    else {
+    	msg = time_obj.h + "h " + time_obj.m + "m " + time_obj.s + 's';
+    }
+
     $('#left-time').text(msg);
 
     //progress bar
@@ -160,4 +167,5 @@ $(function () {
     // test_time.setHours(test_time.getHours() + 10);
     // updateTimeLeft(test_time);
 
+    $('#bodybody').parents('body:first').addClass('time-granted');
 });
