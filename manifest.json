@@ -1,14 +1,10 @@
 {
   "manifest_version": 2,
 
-  "name": "Time Granted",
+  "name": "timegranted",
   "description": "A countdown from the first time you log onto your browser",
-  "version": "0.1",
+  "version": "0.4",
 
-  // "permissions": [
-  //   "https://reddit.com/",
-  //   "http://reddit.com/"
-  // ],
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
