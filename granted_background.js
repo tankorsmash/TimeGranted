@@ -1,15 +1,15 @@
 // chrome.extension.onMessage.addListener(
-// 
+//
 // function (request, sender) {
 //     console.log(sender.tab);
 //     n_results = -1;
-// 
+//
 //     console.log(request.link);
-// 
+//
 //     chrome.history.getVisits({
 //         url: request.link
 //     },
-// 
+//
 //     function (visits) {
 //         console.log(visits.length);
 //         n_results = visits.length;
@@ -17,14 +17,21 @@
 //             "result": n_results
 //         });
 //     });
-// 
+//
 // });
-// 
-function updateTimeLeft(ending_time) {
+//
+function updateTimeLeft(start_time, ending_time) {
     var current_time = new Date();
     left_time = ending_time - current_time;
 
     time_obj = convertMS(left_time);
+
+    if (current_time > ending_time) {
+        $('.time-display').html('GO HOME!!');
+        $('#progress').css('width', '100%');
+        $('#percent').text( "100%");
+        return;
+    }
 
     if (time_obj.h == 0) {
     	msg = time_obj.m + "m " + time_obj.s + 's';
@@ -46,7 +53,7 @@ function updateTimeLeft(ending_time) {
 
     setTimeout(function () {
 
-        updateTimeLeft(ending_time);
+        updateTimeLeft(start_time, ending_time);
 
     }, 1000);
 
@@ -130,7 +137,7 @@ function getEarliestHistory(start_time, end_time) {
                 console.log("Earliest history item found: " + lastVisitTime);
 
                 //start the update timer, once a second
-                updateTimeLeft(ending_time);
+                updateTimeLeft(start_time, ending_time);
 
             }
         } else {
