@@ -18,13 +18,13 @@
 
   "content_scripts" : [
   {
-      "matches" : ["http://*/*"],
+      "matches" : ["http://*/*", "https://*/*"],
       "css" : ["granted.css"],
       "js" : ["jquery-2.0.0.js","granted.js"]
   }],
 
   "permissions": [
-     "tabs", "http://*/*", "history", "notifications"
+     "tabs", "http://*/*", "https://*/*", "history", "notifications"
   ],
   "background": {"scripts": ["jquery-2.0.0.js", "granted_background.js"]}
 

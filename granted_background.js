@@ -26,10 +26,11 @@ function updateTimeLeft(start_time, ending_time) {
 
     time_obj = convertMS(left_time);
 
-    if (current_time > ending_time) {
+    if (current_time < ending_time) {
         $('.time-display').html('GO HOME!!');
         $('#progress').css('width', '100%');
         $('#percent').text( "100%");
+        triggerPopup();
         return;
     }
 
@@ -57,6 +58,17 @@ function updateTimeLeft(start_time, ending_time) {
 
     }, 1000);
 
+}
+
+function triggerPopup() {
+    $('.time-display').text('actually wait no');
+
+    var notification = webkitNotifications.createNotification(
+        'icon_48.png',
+        'GO HOME',
+        'Hey, it\'s time to go home!'
+    );
+    notification.show();
 }
 
 
@@ -153,7 +165,6 @@ function getEarliestHistory(start_time, end_time) {
         }
     });
 }
-
 
 
 
