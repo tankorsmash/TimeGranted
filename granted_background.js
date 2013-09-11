@@ -39,7 +39,7 @@ function updateTimeLeft(start_time, ending_time) {
 
     time_obj = convertMS(left_time);
 
-    if (current_time < ending_time) {
+    if (current_time > ending_time) {
         $('.time-display').html('GO HOME!!');
         $('#progress').css('width', '100%');
         $('#percent').text( "100%");
