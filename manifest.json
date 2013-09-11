@@ -24,7 +24,7 @@
   }],
 
   "permissions": [
-     "tabs", "http://*/*", "https://*/*", "history", "notifications"
+     "tabs", "http://*/*", "https://*/*", "history", "notifications", "cookies"
   ],
   "background": {"scripts": ["jquery-2.0.0.js", "granted_background.js"]}
 

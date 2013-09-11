@@ -1,25 +1,38 @@
-// chrome.extension.onMessage.addListener(
-//
-// function (request, sender) {
-//     console.log(sender.tab);
-//     n_results = -1;
-//
-//     console.log(request.link);
-//
-//     chrome.history.getVisits({
-//         url: request.link
-//     },
-//
-//     function (visits) {
-//         console.log(visits.length);
-//         n_results = visits.length;
-//         chrome.tabs.sendMessage(sender.tab.id, {
-//             "result": n_results
-//         });
-//     });
-//
-// });
-//
+var cookieOptions = {
+    url: 'http://localhost',
+    name: 'timegrantedtriggered'
+};
+
+function triggerPopupOnce(end) {
+
+    var today = new Date();
+    today.setHours(0,0,0,0);
+
+    var ending = new Date(end);
+    ending.setHours(0,0,0,0);
+
+    if (today > ending) {
+        options.value = 'true';
+    }
+
+    chrome.cookies.get(cookieOptions, function (cookie) {
+
+        if (cookie) {
+            return;
+        }
+
+        cookieOptions.value = 'true';
+        chrome.cookies.set(cookieOptions);
+
+        var notification = webkitNotifications.createNotification(
+            '/icon_48.png',
+            'GO HOME',
+            'Hey, it\'s time to go home!'
+        );
+        notification.show();
+    });
+}
+
 function updateTimeLeft(start_time, ending_time) {
     var current_time = new Date();
     left_time = ending_time - current_time;
@@ -30,9 +43,11 @@ function updateTimeLeft(start_time, ending_time) {
         $('.time-display').html('GO HOME!!');
         $('#progress').css('width', '100%');
         $('#percent').text( "100%");
-        triggerPopup();
+        triggerPopupOnce(ending_time);
         return;
     }
+
+    chrome.cookies.remove(cookieOptions);
 
     if (time_obj.h == 0) {
     	msg = time_obj.m + "m " + time_obj.s + 's';
@@ -60,20 +75,8 @@ function updateTimeLeft(start_time, ending_time) {
 
 }
 
-function triggerPopup() {
-    $('.time-display').text('actually wait no');
-
-    var notification = webkitNotifications.createNotification(
-        'icon_48.png',
-        'GO HOME',
-        'Hey, it\'s time to go home!'
-    );
-    notification.show();
-}
-
-
 function convertMS(ms) {
-    var d, h, m, s;
+    var d, h, m, s, half;
     s = Math.floor(ms / 1000);
     m = Math.floor(s / 60);
     s = s % 60;
@@ -81,13 +84,25 @@ function convertMS(ms) {
     m = m % 60;
     d = Math.floor(h / 24);
     h = h % 24;
+    half = 'AM';
+
+    if (h > 12) {
+        h -= 12;
+        half = 'PM';
+    }
+
     return {
         d: d,
         h: h,
         m: m,
-        s: s
+        s: s,
+        half: half
     };
 };
+
+function buildDateString(msObj) {
+    return msObj.h + ':' + msObj.s + ' ' + msObj.half;
+}
 
 function rl() {
     location.reload();
@@ -140,6 +155,8 @@ function getEarliestHistory(start_time, end_time) {
 
                 first_histime = ALL[index_of_earliest_hisitem];
                 var lastVisitTime = get_lastVisitTime(first_histime);
+                var lv = convertMS(lastVisitTime);
+
                 $('#start-time').text(lastVisitTime.toLocaleTimeString());
 
                 var ending_time = new Date(lastVisitTime.getTime());
