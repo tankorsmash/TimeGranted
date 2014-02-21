@@ -3,6 +3,8 @@ var cookieOptions = {
     name: 'timegrantedtriggered'
 };
 
+gone_home = false;
+
 function triggerPopupOnce(end) {
 
     var today = new Date();
@@ -15,22 +17,25 @@ function triggerPopupOnce(end) {
         options.value = 'true';
     }
 
-    chrome.cookies.get(cookieOptions, function (cookie) {
+	if (chrome.cookies)
+		{
+			chrome.cookies.get(cookieOptions, function (cookie) {
 
-        if (cookie) {
-            return;
-        }
+				if (cookie) {
+					return;
+				}
 
-        cookieOptions.value = 'true';
-        chrome.cookies.set(cookieOptions);
+				cookieOptions.value = 'true';
+				chrome.cookies.set(cookieOptions);
 
-        var notification = webkitNotifications.createNotification(
-            '/icon_48.png',
-            'GO HOME',
-            'Hey, it\'s time to go home!'
-        );
-        notification.show();
-    });
+				var notification = webkitNotifications.createNotification(
+					'/icon_48.png',
+					'GO HOME',
+					'Hey, it\'s time to go home!'
+				);
+				notification.show();
+			});
+		}
 }
 
 function updateTimeLeft(start_time, ending_time) {
@@ -40,14 +45,22 @@ function updateTimeLeft(start_time, ending_time) {
     time_obj = convertMS(left_time);
 
     if (current_time > ending_time) {
-        $('.time-display').html('GO HOME!!');
+        // $('.time-display').html('GO HOME!!');
+		if (!gone_home)
+			{
+		$(".time-display").after("<span class='go-home' >GO HOME</span>");
+		gone_home = true;
+			}
         $('#progress').css('width', '100%');
-        $('#percent').text( "100%");
+        // $('#percent').text( "100%");
         triggerPopupOnce(ending_time);
-        return;
+        // return;
     }
 
-    chrome.cookies.remove(cookieOptions);
+	if (chrome.cookies)
+		{
+			chrome.cookies.remove(cookieOptions);
+		}
 
     if (time_obj.h == 0) {
     	msg = time_obj.m + "m " + time_obj.s + 's';
@@ -60,7 +73,10 @@ function updateTimeLeft(start_time, ending_time) {
 
     //progress bar
     percentage = 1 - ( left_time / (8 * 60 * 60 * 1000));
-    $('#progress').css('width', (percentage * 100)+'%');
+	if (!gone_home)
+		{
+			$('#progress').css('width', (percentage * 100)+'%');
+		}
     // $('#progress').text((Math.round((percentage * 100 * 100) / 100) ) + " %");
     $('#percent').text((Math.round((percentage * 100 * 100) / 100) ) + " %");
 
